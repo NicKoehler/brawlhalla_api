@@ -4,11 +4,11 @@ from time import sleep
 from dotenv import load_dotenv
 
 from brawlhalla_api import BrawlhallaSync
+from brawlhalla_api.errors import BadRequest
 from brawlhalla_api.types import (
     Clan,
     Region,
     SteamUser,
-    BadRequest,
     PlayerStats,
     PlayerRanked,
     RankingResult,

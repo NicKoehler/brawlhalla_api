@@ -1,6 +1,6 @@
 from requests import get
 from httpx import AsyncClient
-from .types.errors import error_checker
+from .errors import error_checker
 
 BASE_URL = "https://api.brawlhalla.com/"
 
