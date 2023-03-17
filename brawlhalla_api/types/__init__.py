@@ -8,12 +8,3 @@ from .player_ranked import PlayerRanked
 from .ranking_result import RankingResult
 from .player_legend import PlayerRankedLegend, PlayerStatsLegend
 from .legends import Legend, LegendDetails
-
-from .errors import (
-    Unauthorized,
-    Forbidden,
-    NotFound,
-    BadRequest,
-    TooManyRequests,
-    ServiceUnavailable,
-)
