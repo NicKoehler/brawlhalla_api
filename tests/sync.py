@@ -18,7 +18,7 @@ from brawlhalla_api.types import (
 load_dotenv()
 
 API_KEY = environ.get("API_KEY")
-assert API_KEY != None
+assert API_KEY is not None
 
 
 @pytest.fixture
