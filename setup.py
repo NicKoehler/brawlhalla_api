@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="brawlhalla_api",
-    version="0.0.1",
+    version="0.0.2",
     packages=find_packages(exclude=["tests"]),
     description="Unofficial Brawlhalla API implementation",
     author="NicKoehler",

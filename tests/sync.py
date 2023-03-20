@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 from brawlhalla_api import BrawlhallaSync
 from brawlhalla_api.errors import BadRequest
+from brawlhalla_api import utils
 from brawlhalla_api.types import (
     Clan,
     Region,
@@ -79,6 +80,16 @@ def test_get_stats_on_ranking(brawl: BrawlhallaSync):
 def test_get_clan_on_player_stats(brawl: BrawlhallaSync):
     result = brawl.get_stats(3358533).get_clan()
     assert isinstance(result, Clan)
+
+
+def test_glory():
+    assert utils.get_glory_from_wins(100) == 2000
+    assert utils.get_glory_from_best_rating(2000) == 4370
+
+
+def test_elo_reset():
+    assert utils.get_hero_elo_from_old_elo(2200) == 1603
+    assert utils.get_personal_elo_from_old_elo(2000) == 1742
 
 
 def test_errors(brawl: BrawlhallaSync):
