@@ -41,10 +41,10 @@ class PlayerStats(Base):
         self.xp_percentage = xp_percentage
         self.games = games
         self.wins = wins
-        self.damagebomb = damagebomb
-        self.damagemine = damagemine
-        self.damagespikeball = damagespikeball
-        self.damagesidekick = damagesidekick
+        self.damagebomb = int(damagebomb)
+        self.damagemine = int(damagemine)
+        self.damagespikeball = int(damagespikeball)
+        self.damagesidekick = int(damagesidekick)
         self.hitsnowball = hitsnowball
         self.kobomb = kobomb
         self.komine = komine
@@ -52,7 +52,8 @@ class PlayerStats(Base):
         self.kosidekick = kosidekick
         self.kosnowball = kosnowball
         self.legends = [PlayerStatsLegend(brawlhalla, **legend) for legend in legends]
-        self.clan = PlayerClan(brawlhalla, **clan)
+        if clan is not None:
+            self.clan = PlayerClan(brawlhalla, **clan)
         super().__init__(brawlhalla)
 
     async def get_clan(self) -> Clan | None:
