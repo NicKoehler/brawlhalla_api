@@ -54,6 +54,8 @@ class PlayerStats(Base):
         self.legends = [PlayerStatsLegend(brawlhalla, **legend) for legend in legends]
         if clan is not None:
             self.clan = PlayerClan(brawlhalla, **clan)
+        else:
+            self.clan = None
         super().__init__(brawlhalla)
 
     async def get_clan(self) -> Clan | None:
