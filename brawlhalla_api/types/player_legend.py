@@ -5,6 +5,7 @@ if TYPE_CHECKING:
     from brawlhalla_api import Brawlhalla, BrawlhallaSync
 
 from .base import Base
+from datetime import timedelta
 
 
 class PlayerStatsLegend(Base):
@@ -46,7 +47,7 @@ class PlayerStatsLegend(Base):
         self.falls = falls
         self.suicides = suicides
         self.teamkos = teamkos
-        self.matchtime = matchtime
+        self.matchtime = timedelta(seconds=matchtime) 
         self.games = games
         self.wins = wins
         self.damageunarmed = int(damageunarmed)
