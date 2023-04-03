@@ -22,7 +22,7 @@ class PlayerRanked(Base):
         rotating_ranked: RankingResult = None,
         **kwargs
     ) -> None:
-        self.name = name
+        self.name = name.encode("raw_unicode_escape").decode("utf-8")
         self.brawlhalla_id = brawlhalla_id
         self.rating = rating
         self.peak_rating = peak_rating

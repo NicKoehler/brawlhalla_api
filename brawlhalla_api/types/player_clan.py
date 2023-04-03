@@ -16,7 +16,7 @@ class PlayerClan(Base):
         clan_xp: int = None,
         personal_xp: int = None,
     ) -> None:
-        self.clan_name = clan_name
+        self.clan_name = clan_name.encode("raw_unicode_escape").decode("utf-8")
         self.clan_id = clan_id
         self.clan_xp = int(clan_xp)
         self.personal_xp = personal_xp

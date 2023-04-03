@@ -35,7 +35,7 @@ class PlayerStats(Base):
         clan: int = None,
     ) -> None:
         self.brawlhalla_id = brawlhalla_id
-        self.name = name
+        self.name = name.encode("raw_unicode_escape").decode("utf-8")
         self.xp = xp
         self.level = level
         self.xp_percentage = xp_percentage
