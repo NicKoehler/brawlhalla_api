@@ -50,7 +50,6 @@ class RankingResult(Base):
             self.region = Region.from_str(region)
         if isinstance(region, int):
             self.region = Region.from_id(region)
-        self.region = region
         self.peak_rating = peak_rating
         self.best_legend = best_legend
         self.global_rank = global_rank
