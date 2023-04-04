@@ -30,7 +30,7 @@ class PlayerRanked(Base):
         self.tier = tier
         self.wins = wins
         self.games = games
-        self.region = Region.from_str(region)
+        self.region = Region.from_str(region) if region else None
         self.global_rank = global_rank
         self.region_rank = region_rank
         self.legends = [PlayerRankedLegend(brawlhalla, **legend) for legend in legends]
