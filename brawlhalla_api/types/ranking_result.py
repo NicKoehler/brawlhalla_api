@@ -1,6 +1,8 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
+from brawlhalla_api.types.regions import Region
+
 
 if TYPE_CHECKING:
     from brawlhalla_api import Brawlhalla, BrawlhallaSync
@@ -44,6 +46,10 @@ class RankingResult(Base):
         self.games = games
         self.wins = wins
         self.rating = rating
+        if isinstance(region, str):
+            self.region = Region.from_str(region)
+        if isinstance(region, int):
+            self.region = Region.from_id(region)
         self.region = region
         self.peak_rating = peak_rating
         self.best_legend = best_legend

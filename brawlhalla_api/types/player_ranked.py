@@ -1,3 +1,4 @@
+from brawlhalla_api.types.regions import Region
 from .base import Base
 from .ranking_result import RankingResult
 from .player_legend import PlayerRankedLegend
@@ -29,7 +30,7 @@ class PlayerRanked(Base):
         self.tier = tier
         self.wins = wins
         self.games = games
-        self.region = region
+        self.region = Region.from_str(region)
         self.global_rank = global_rank
         self.region_rank = region_rank
         self.legends = [PlayerRankedLegend(brawlhalla, **legend) for legend in legends]
