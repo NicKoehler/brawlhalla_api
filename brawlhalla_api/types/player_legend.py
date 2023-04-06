@@ -47,7 +47,7 @@ class PlayerStatsLegend(Base):
         self.falls = falls
         self.suicides = suicides
         self.teamkos = teamkos
-        self.matchtime = timedelta(seconds=matchtime) 
+        self.matchtime = timedelta(seconds=matchtime)
         self.games = games
         self.wins = wins
         self.damageunarmed = int(damageunarmed)
@@ -60,8 +60,8 @@ class PlayerStatsLegend(Base):
         self.koweaponone = koweaponone
         self.koweapontwo = koweapontwo
         self.kogadgets = kogadgets
-        self.timeheldweaponone = timeheldweaponone
-        self.timeheldweapontwo = timeheldweapontwo
+        self.timeheldweaponone = timedelta(timeheldweaponone)
+        self.timeheldweapontwo = timedelta(timeheldweapontwo)
         self.xp = xp
         self.level = level
         self.xp_percentage = xp_percentage
