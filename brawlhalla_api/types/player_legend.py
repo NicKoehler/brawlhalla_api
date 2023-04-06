@@ -60,8 +60,8 @@ class PlayerStatsLegend(Base):
         self.koweaponone = koweaponone
         self.koweapontwo = koweapontwo
         self.kogadgets = kogadgets
-        self.timeheldweaponone = timedelta(timeheldweaponone)
-        self.timeheldweapontwo = timedelta(timeheldweapontwo)
+        self.timeheldweaponone = timedelta(seconds=timeheldweaponone)
+        self.timeheldweapontwo = timedelta(seconds=timeheldweapontwo)
         self.xp = xp
         self.level = level
         self.xp_percentage = xp_percentage
