@@ -10,6 +10,8 @@ class Region(Enum):
     US_W = "us-w"
     US_E = "us-e"
     JPN = "jpn"
+    ME = "me"
+    SA = "sa"
 
     def from_str(value: str) -> "Region":
         """
@@ -40,6 +42,10 @@ class Region(Enum):
                 return Region.AUS
             case 7:
                 return Region.US_W
+            case 8:
+                return Region.ME
+            case 9:
+                return Region.SA
             case _:
                 raise ValueError(f"Unknown region id: {id}")
 
