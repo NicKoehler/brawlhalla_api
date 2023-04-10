@@ -1,3 +1,8 @@
+"""
+Brawlhalla API python implementation using syncronous requests.
+
+"""
+
 from .request import Request
 from .types import (
     Clan,
@@ -13,6 +18,29 @@ from .types import (
 
 
 class Brawlhalla:
+    """
+    The `Brawlhalla` class provides an interface for accessing Brawlhalla API endpoints.
+    It allows you to search for players, retrieve their rankings, statistics, and clan information,
+    as well as get data for all Brawlhalla legends.
+
+    To use this class, you need to provide a valid Brawlhalla API key.
+
+    The class contains the following methods:
+
+    - `search`: Search for a player using their Steam ID.
+    - `get_rankings`: Get the rankings for a specified bracket, region, and page number.
+    - `get_stats`: Get all stats about a player.
+    - `get_ranked`: Get all ranked stats about a player.
+    - `get_clan`: Get information about a specific clan and its clan members.
+    - `get_legends`: Get summarized data for all legends or details about a specific legend.
+
+    Note that some methods have specific parameters and behaviors
+    that are documented in their respective docstrings.
+
+    Some methods may return `None`, an empty list, or raise exceptions
+    if no data is found or if invalid parameters are used.
+    """
+
     def __init__(self, api_key: str) -> None:
         self._request = Request(api_key)
 
@@ -20,8 +48,9 @@ class Brawlhalla:
         """
         Search for a player using their Steam ID.
 
-        :param steam_id: The Steam ID of the player to search for, in the format steamID64 (e.g. 76561198025185087).
-        :return: A `SteamUser` object representing the player, or `None` if the player was not found.
+        :param steam_id: The Steam ID of the player to search for, in the format steamID64
+            (e.g. 76561198025185087).
+        :return: A `SteamUser` representing the player, `None` if the player was not found.
         """
         result = await self._request.get("search", params={"steamid": steam_id})
 
@@ -40,11 +69,15 @@ class Brawlhalla:
         """
         Get the rankings for a specified bracket, region, and page number.
 
-        :param name: The name of the player to search for in the rankings. If not specified, return all players.
-        :param bracket: The bracket to retrieve rankings for, can be one of the values in the `Bracket` enum (SINGLE, DOUBLE, ROTATING).
-        :param region: The region to retrieve rankings for, can be one of the values in the `Region` enum (ALL, EU, SEA, BRZ, AUS, US_W, US_E).
+        :param name: The name of the player to search for in the rankings.
+            If not specified, return all players.
+        :param bracket: The bracket to retrieve rankings for, can be one of the values in the
+            `Bracket` enum (SINGLE, DOUBLE, ROTATING).
+        :param region: The region to retrieve rankings for, can be one of the values in the
+            `Region` enum (ALL, EU, SEA, BRZ, AUS, US_W, US_E).
         :param page: The page number of the rankings to retrieve. The first page is page 1.
-        :return: A list of `RankingResult` objects representing the players in the specified rankings, a empty list if the rankings were not found.
+        :return: A list of `RankingResult`s representing the players,
+            a empty list if the rankings were not found.
 
         Note that steam names can change frequently.
         Searching names is currently only implemented for bracket 1v1.
@@ -66,12 +99,12 @@ class Brawlhalla:
         Get all stats about a player.
 
         :param brawlhalla_id: The brawlhalla ID of the player.
-        :return: A `PlayerStats` object representing the player, or `None` if the player was not found.
+        :return: A `PlayerStats` representing the player, `None` if the player was not found.
         """
         result = await self._request.get(f"player/{brawlhalla_id}/stats")
 
         if not result:
-            return
+            return None
 
         return PlayerStats(self, **result)
 
@@ -80,12 +113,12 @@ class Brawlhalla:
         Get all ranked stats about a player.
 
         :param brawlhalla_id: The brawlhalla ID of the player.
-        :return: A `PlayerRanked` object representing the player, or `None` if the player was not found.
+        :return: A `PlayerRanked` representing the player, `None` if the player was not found.
         """
         result = await self._request.get(f"player/{brawlhalla_id}/ranked")
 
         if not result:
-            return
+            return None
 
         return PlayerRanked(self, **result)
 
@@ -94,12 +127,12 @@ class Brawlhalla:
         Get information about a specific clan and its clan members.
 
         :param clan_id: The clan ID of a clan.
-        :return: A `Clan` object representing the clan, or `None` if the clan was not found.
+        :return: A `Clan` representing the clan, or `None` if the clan was not found.
         """
         result = await self._request.get(f"clan/{clan_id}")
 
         if not result:
-            return
+            return None
 
         return Clan(self, **result)
 
@@ -113,8 +146,8 @@ class Brawlhalla:
         The keyword 'all' signifies that every legend should be returned.
 
         :param legend_id: The legend ID of a legend.
-        :return: A `list[Legend]` object of all legends if the keyword 'all' is used,
-        a `LegendDetails` object with detauls about a specific legend otherwise.
+        :return: A `list[Legend]` of all legends if the keyword 'all' is used,
+        a `LegendDetails` with detauls about a specific legend otherwise.
 
         Note that calling this method with an invalid legend_id raises `NotFound` exception.
 
