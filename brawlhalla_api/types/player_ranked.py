@@ -26,13 +26,14 @@ class PlayerRanked(PlayerCommons):
             self.rotating_ranked = RankingResult(
                 brawlhalla, **kwargs.get("rotating_ranked")
             )
-        self.estimated_glory = self._get_glory()
-        self.estimated_elo_reset = utils.get_personal_elo_from_old_elo(self.rating)
 
         if self.region != "none":
             self.region = Region.from_str(self.region)
         else:
             self.region = None
+
+        self.estimated_glory = self._get_glory()
+        self.estimated_elo_reset = utils.get_personal_elo_from_old_elo(self.rating)
 
     def _get_glory(self) -> int:
         total_wins = self.wins
