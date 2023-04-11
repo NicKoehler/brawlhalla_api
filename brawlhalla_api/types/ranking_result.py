@@ -5,69 +5,54 @@ from brawlhalla_api.types.regions import Region
 
 
 if TYPE_CHECKING:
-    from brawlhalla_api import Brawlhalla, BrawlhallaSync
+    from brawlhalla_api import Brawlhalla
     from brawlhalla_api.types import PlayerRanked, PlayerStats
 
-from .base import Base
 
-
-class RankingResult(Base):
+class RankingResult:
     def __init__(
         self,
-        brawlhalla: Brawlhalla | BrawlhallaSync,
-        rank: int = None,
-        name: str = None,
-        tier: str = None,
-        games: int = None,
-        wins: int = None,
-        rating: int = None,
-        region: str = None,
-        peak_rating: int = None,
-        best_legend: int = None,
-        global_rank: int = None,
-        brawlhalla_id: int = None,
-        brawlhalla_id_one: int = None,
-        brawlhalla_id_two: int = None,
-        best_legend_games: int = None,
-        best_legend_wins: int = None,
-        teamname: str = None,
-        twitch_name: str = None,
-        twitch_name_one: str = None,
-        twitch_name_two: str = None,
+        brawlhalla: Brawlhalla,
+        **kwargs,
     ) -> None:
-        self.brawlhalla_id = brawlhalla_id
-        self.brawlhalla_id_one = brawlhalla_id_one
-        self.brawlhalla_id_two = brawlhalla_id_two
-        if name:
-            self.name = name.encode("raw_unicode_escape").decode("utf-8")
-        if rank:
-            self.rank = int(rank)
-        self.tier = tier
-        self.games = games
-        self.wins = wins
-        self.rating = rating
-        if isinstance(region, str):
-            self.region = Region.from_str(region)
-        if isinstance(region, int):
-            self.region = Region.from_id(region)
-        self.peak_rating = peak_rating
-        self.best_legend = best_legend
-        self.global_rank = global_rank
-        self.best_legend_games = best_legend_games
-        self.best_legend_wins = best_legend_wins
-        if teamname:
-            self.teamname = teamname.encode("raw_unicode_escape").decode("utf-8")
-        if twitch_name:
-            self.twitch_name = twitch_name.encode("raw_unicode_escape").decode("utf-8")
-        if twitch_name_one:
-            self.twitch_name_one = twitch_name_one.encode("raw_unicode_escape").decode(
-                "utf-8"
-            )
-        if twitch_name_two:
-            self.twitch_name_two = twitch_name_two.encode("raw_unicode_escape").decode(
-                "utf-8"
-            )
-        super().__init__(brawlhalla)
+        self.brawlhalla = brawlhalla
+        self.brawlhalla_id = kwargs.get("brawlhalla_id")
+        self.brawlhalla_id_one = kwargs.get("brawlhalla_id_one")
+        self.brawlhalla_id_two = kwargs.get("brawlhalla_id_two")
+        self.name = kwargs.get("name")
+        self.rank = kwargs.get("rank")
+        self.tier = kwargs.get("tier")
+        self.games = kwargs.get("games")
+        self.wins = kwargs.get("wins")
+        self.rating = kwargs.get("rating")
+        self.peak_rating = kwargs.get("peak_rating")
+        self.best_legend = kwargs.get("best_legend")
+        self.global_rank = kwargs.get("global_rank")
+        self.best_legend_games = kwargs.get("best_legend_games")
+        self.best_legend_wins = kwargs.get("best_legend_wins")
+        self.teamname = kwargs.get("teamname")
+        self.twitch_name = kwargs.get("twitch_name")
+        self.twitch_name_one = kwargs.get("twitch_name_one")
+        self.twitch_name_two = kwargs.get("twitch_name_two")
+
+        if isinstance(kwargs.get("region"), str):
+            self.region = Region.from_str(kwargs.get("region"))
+        if isinstance(kwargs.get("region"), int):
+            self.region = Region.from_id(kwargs.get("region"))
+
+        if self.rank:
+            self.rank = int(self.rank)
+
+        if self.name:
+            self.name.encode("raw_unicode_escape").decode("utf-8")
+        if self.teamname:
+            self.teamname.encode("raw_unicode_escape").decode("utf-8")
+        if self.twitch_name:
+            self.twitch_name.encode("raw_unicode_escape").decode("utf-8")
+        if self.twitch_name_one:
+            self.twitch_name_one.encode("raw_unicode_escape").decode("utf-8")
+        if self.twitch_name_two:
+            self.twitch_name_two.encode("raw_unicode_escape").decode("utf-8")
 
     async def get_ranked(self) -> PlayerRanked:
         """
@@ -77,14 +62,6 @@ class RankingResult(Base):
         """
         return await self.brawlhalla.get_ranked(self.brawlhalla_id)
 
-    def get_ranked(self) -> PlayerRanked:
-        """
-        Gets the ranked information for the player.
-
-        :return: An object of type `PlayerRanked`, containing the player's ranked information.
-        """
-        return self.brawlhalla.get_ranked(self.brawlhalla_id)
-
     async def get_stats(self) -> PlayerStats:
         """
         Gets the overall statistics for the player.
@@ -92,11 +69,3 @@ class RankingResult(Base):
         :return: An object of type `PlayerStats`, containing the player's overall statistics.
         """
         return await self.brawlhalla.get_stats(self.brawlhalla_id)
-
-    def get_stats(self) -> PlayerStats:
-        """
-        Gets the overall statistics for the player.
-
-        :return: An object of type `PlayerStats`, containing the player's overall statistics.
-        """
-        return self.brawlhalla.get_stats(self.brawlhalla_id)

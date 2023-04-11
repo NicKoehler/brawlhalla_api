@@ -1,47 +1,38 @@
-from brawlhalla_api.types.regions import Region
-from .base import Base
+from dataclasses import dataclass
+
+from .. import utils
+from .regions import Region
 from .ranking_result import RankingResult
 from .player_legend import PlayerRankedLegend
-from .. import utils
+from .player_commons import PlayerCommons
 
 
-class PlayerRanked(Base):
-    def __init__(
-        self,
-        brawlhalla,
-        name: str = None,
-        brawlhalla_id: int = None,
-        rating: int = None,
-        peak_rating: int = None,
-        tier: str = None,
-        wins: int = None,
-        games: int = None,
-        region: str = None,
-        global_rank: int = None,
-        region_rank: int = None,
-        legends: PlayerRankedLegend = [],
-        rotating_ranked: RankingResult = None,
-        **kwargs
-    ) -> None:
-        self.name = name.encode("raw_unicode_escape").decode("utf-8")
-        self.brawlhalla_id = brawlhalla_id
-        self.rating = rating
-        self.peak_rating = peak_rating
-        self.tier = tier
-        self.wins = wins
-        self.games = games
-        self.region = Region.from_str(region) if region != "none" else None
-        self.global_rank = global_rank
-        self.region_rank = region_rank
-        self.legends = [PlayerRankedLegend(brawlhalla, **legend) for legend in legends]
-        self.teams = [RankingResult(brawlhalla, **team) for team in kwargs["2v2"]]
-        if isinstance(rotating_ranked, list):
+@dataclass
+class PlayerRanked(PlayerCommons):
+    def __init__(self, brawlhalla, **kwargs) -> None:
+        super().__init__(brawlhalla, **kwargs)
+        self.name = kwargs.get("name").encode("raw_unicode_escape").decode("utf-8")
+        self.brawlhalla_id = kwargs.get("brawlhalla_id")
+        self.region = kwargs.get("region")
+        self.global_rank = kwargs.get("global_rank")
+        self.region_rank = kwargs.get("region_rank")
+        self.legends = [
+            PlayerRankedLegend(brawlhalla, **legend) for legend in kwargs.get("legends")
+        ]
+        self.teams = [RankingResult(brawlhalla, **team) for team in kwargs.get("2v2")]
+        if isinstance(kwargs.get("rotating_ranked"), list):
             self.rotating_ranked = None
         else:
-            self.rotating_ranked = RankingResult(brawlhalla, **rotating_ranked)
+            self.rotating_ranked = RankingResult(
+                brawlhalla, **kwargs.get("rotating_ranked")
+            )
         self.estimated_glory = self._get_glory()
         self.estimated_elo_reset = utils.get_personal_elo_from_old_elo(self.rating)
-        super().__init__(brawlhalla)
+
+        if self.region != "none":
+            self.region = Region.from_str(self.region)
+        else:
+            self.region = None
 
     def _get_glory(self) -> int:
         total_wins = self.wins

@@ -11,8 +11,6 @@ _An unofficial brawlhalla api implementation_
 
   - [Authentication](#authentication)
   - [Examples](#examples)
-    - [Asyncio](#asyncio)
-    - [Without asyncio](#without-asyncio)
 
 - [License](#license)
 
@@ -39,8 +37,6 @@ Send an email to api@brawlhalla.com with a detailed description of how you inten
 
 ### Examples
 
-#### Asyncio
-
 ```python
 import asyncio
 from brawlhalla_api import Brawlhalla
@@ -60,25 +56,6 @@ async def main():
     ranked = await players[0].get_ranked()
 
 asyncio.run(main())
-```
-
-#### Without asyncio
-
-```python
-from brawlhalla_api import BrawlhallaSync
-
-API_KEY = "..." # use your api key
-
-brawl = BrawlhallaSync(API_KEY)
-players = brawl.get_rankings()
-
-# printing every player
-for player in players:
-    print(player.name)
-
-# get stats of the first player
-stats = players[0].get_stats()
-ranked = players[0].get_ranked()
 ```
 
 ## License

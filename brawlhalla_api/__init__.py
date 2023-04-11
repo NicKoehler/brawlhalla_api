@@ -1,2 +1,4 @@
+"""
+Module entry point
+"""
 from .brawlhalla import Brawlhalla
-from .brawlhalla_sync import BrawlhallaSync

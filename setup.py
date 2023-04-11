@@ -14,6 +14,5 @@ setup(
     license="MIT",
     install_requires=[
         "httpx==0.23.3",
-        "requests==2.28.2",
     ],
 )
