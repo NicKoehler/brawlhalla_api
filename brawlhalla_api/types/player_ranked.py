@@ -1,3 +1,12 @@
+"""
+This module defines the PlayerRanked data class which represents
+a ranked player in the game Brawlhalla.
+
+It inherits from the PlayerCommons data class and has additional
+attributes.
+
+"""
+
 from dataclasses import dataclass
 
 from .. import utils
@@ -9,6 +18,24 @@ from .player_commons import PlayerCommons
 
 @dataclass
 class PlayerRanked(PlayerCommons):
+    """
+    PlayerRanked represents a ranked player in the game Brawlhalla.
+
+    name: the player's in-game name
+    brawlhalla_id: the player's unique Brawlhalla ID
+    region: the player's region
+    global_rank: the player's global rank
+    region_rank: the player's region rank
+    legends: a list of PlayerRankedLegend instances
+    teams: a list of RankingResult instances
+    region: the player's region
+    rotating_ranked: a RankingResult instance representing the player's
+        rotating ranked ranking
+    estimated_glory: the player's estimated glory
+    estimated_elo_reset: the player's estimated elo reset
+
+    """
+
     def __init__(self, brawlhalla, **kwargs) -> None:
         super().__init__(brawlhalla, **kwargs)
         self.name = kwargs.get("name").encode("raw_unicode_escape").decode("utf-8")
@@ -36,6 +63,12 @@ class PlayerRanked(PlayerCommons):
         self.estimated_elo_reset = utils.get_personal_elo_from_old_elo(self.rating)
 
     def _get_glory(self) -> int:
+        """
+        Returns the player's estimated glory.
+
+        this method is automatically called by the __init__ method.
+
+        """
         total_wins = self.wins
         peak_rating = self.peak_rating
 
