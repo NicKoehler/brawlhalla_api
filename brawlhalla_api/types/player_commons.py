@@ -1,5 +1,5 @@
 """
-This module contains the PlayerCommons class,
+This module defines PlayerCommons class,
 which contains commons information about a player in the game Brawlhalla.
 """
 
@@ -13,6 +13,12 @@ if TYPE_CHECKING:
 
 @dataclass
 class PlayerCommons:
+    """
+    PlayerCommons never gets instantiated directly.
+    Instead it gets instantiated by PlayerRanked
+    and PlayerRankedLegend as they share some common properties
+    """
+
     def __init__(self, brawlhalla: Brawlhalla, **kwargs) -> None:
         self.brawlhalla = brawlhalla
         self.rating = kwargs.get("rating")

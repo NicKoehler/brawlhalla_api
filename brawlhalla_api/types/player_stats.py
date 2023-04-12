@@ -1,3 +1,8 @@
+"""
+This module defines PlayerStats data class which represents
+a player's stats in the game Brawlhalla.
+"""
+
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
@@ -13,6 +18,10 @@ if TYPE_CHECKING:
 
 @dataclass
 class PlayerStats:
+    """
+    PlayerStats represents a player's stats in the game Brawlhalla.
+    """
+
     def __init__(
         self,
         brawlhalla: Brawlhalla,

@@ -1,3 +1,8 @@
+"""
+This module defines RankingResult data class which represents
+a player search result in the game Brawlhalla.
+"""
+
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
@@ -10,6 +15,10 @@ if TYPE_CHECKING:
 
 
 class RankingResult:
+    """
+    RankingResult represents a player search result in the game Brawlhalla.
+    """
+
     def __init__(
         self,
         brawlhalla: Brawlhalla,

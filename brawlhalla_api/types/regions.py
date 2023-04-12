@@ -1,7 +1,16 @@
+"""
+This module defines Region enum which represents
+a region in the game Brawlhalla.
+"""
+
 from enum import Enum
 
 
 class Region(Enum):
+    """
+    Region represents a region in the game Brawlhalla.
+    """
+
     EU = "eu"
     ALL = "all"
     SEA = "sea"

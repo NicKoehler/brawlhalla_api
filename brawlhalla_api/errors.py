@@ -1,5 +1,5 @@
 """
-This module contains the following exceptions:
+This module defines following exceptions:
 
     Unauthorized -- You Must use HTTPS
     Forbidden -- Bad API key or missing API key

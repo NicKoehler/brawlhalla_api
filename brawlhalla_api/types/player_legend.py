@@ -1,3 +1,8 @@
+"""
+This module defines PlayerStatsLegend and PlayerRankedLegend
+data class which represents the player's legends stats in the game Brawlhalla.
+"""
+
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from dataclasses import dataclass
@@ -10,6 +15,10 @@ if TYPE_CHECKING:
 
 @dataclass
 class PlayerStatsLegend:
+    """
+    PlayerStatsLegend represents a player's legend stats in the game Brawlhalla.
+    """
+
     def __init__(
         self,
         brawlhalla: Brawlhalla,
@@ -46,6 +55,10 @@ class PlayerStatsLegend:
 
 @dataclass
 class PlayerRankedLegend(PlayerCommons):
+    """
+    PlayerRankedLegend represents a player's ranked legend stats in the game Brawlhalla.
+    """
+
     def __init__(
         self,
         brawlhalla,

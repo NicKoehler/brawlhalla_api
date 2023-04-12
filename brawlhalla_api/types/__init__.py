@@ -1,3 +1,6 @@
+"""
+This module is responsible for importing and making available the classes
+"""
 from .clan import Clan, ClanComponent
 from .regions import Region
 from .brackets import Bracket

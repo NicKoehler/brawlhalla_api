@@ -1,9 +1,6 @@
 """
-This module defines the PlayerRanked data class which represents
+This module defines PlayerRanked data class which represents
 a ranked player in the game Brawlhalla.
-
-It inherits from the PlayerCommons data class and has additional
-attributes.
 
 """
 
@@ -20,20 +17,6 @@ from .player_commons import PlayerCommons
 class PlayerRanked(PlayerCommons):
     """
     PlayerRanked represents a ranked player in the game Brawlhalla.
-
-    name: the player's in-game name
-    brawlhalla_id: the player's unique Brawlhalla ID
-    region: the player's region
-    global_rank: the player's global rank
-    region_rank: the player's region rank
-    legends: a list of PlayerRankedLegend instances
-    teams: a list of RankingResult instances
-    region: the player's region
-    rotating_ranked: a RankingResult instance representing the player's
-        rotating ranked ranking
-    estimated_glory: the player's estimated glory
-    estimated_elo_reset: the player's estimated elo reset
-
     """
 
     def __init__(self, brawlhalla, **kwargs) -> None:

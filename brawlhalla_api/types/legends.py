@@ -1,10 +1,5 @@
 """
 This module provides two dataclass, Legend and LegendDetails.
-
-Both classes take a Brawlhalla instance as a parameter
-and can be instantiated with optional keyword arguments that
-correspond to the legend's attributes. If an attribute is not provided,
-it defaults to None.
 """
 
 from __future__ import annotations

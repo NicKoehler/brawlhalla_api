@@ -1,5 +1,5 @@
 """
-This module contains the PlayerClan class,
+This module defines PlayerClan class,
 which represents a player's clan in the game Brawlhalla.
 
 """

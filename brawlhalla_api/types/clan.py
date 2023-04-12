@@ -2,10 +2,6 @@
 This module contains two data classes,
 ClanComponent and Clan, which represent the
 components of a clan.
-
-
-
-Note: This module requires the Brawlhalla class from the brawlhalla_api module.
 """
 
 from __future__ import annotations
