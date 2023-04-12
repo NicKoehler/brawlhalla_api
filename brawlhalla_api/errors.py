@@ -59,15 +59,15 @@ class ServiceUnavailable(Exception):
 def error_checker(status: int, data: dict):
     """raise an exception based on the status code and data provided"""
     match status:
-        case 403:
-            raise Forbidden()
         case 401:
             raise Unauthorized()
-        case 429:
-            raise TooManyRequests()
-        case 509:
-            raise ServiceUnavailable()
+        case 403:
+            raise Forbidden()
         case 404:
             if data["error"]["message"] == "Not Found":
                 raise NotFound()
             raise BadRequest()
+        case 429:
+            raise TooManyRequests()
+        case 503:
+            raise ServiceUnavailable()
