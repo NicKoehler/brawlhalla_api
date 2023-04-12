@@ -1,89 +1,69 @@
+"""
+This module defines PlayerStatsLegend and PlayerRankedLegend
+data class which represents the player's legends stats in the game Brawlhalla.
+"""
+
 from __future__ import annotations
 from typing import TYPE_CHECKING
+from dataclasses import dataclass
+from datetime import timedelta
+from .player_commons import PlayerCommons
 
 if TYPE_CHECKING:
-    from brawlhalla_api import Brawlhalla, BrawlhallaSync
-
-from .base import Base
+    from brawlhalla_api import Brawlhalla
 
 
-class PlayerStatsLegend(Base):
+@dataclass
+class PlayerStatsLegend:
+    """
+    PlayerStatsLegend represents a player's legend stats in the game Brawlhalla.
+    """
+
     def __init__(
         self,
-        brawlhalla: Brawlhalla | BrawlhallaSync,
-        legend_id: int = None,
-        legend_name_key: str = None,
-        damagedealt: int = None,
-        damagetaken: int = None,
-        kos: int = None,
-        falls: int = None,
-        suicides: int = None,
-        teamkos: int = None,
-        matchtime: int = None,
-        games: int = None,
-        wins: int = None,
-        damageunarmed: int = None,
-        damagethrownitem: int = None,
-        damageweaponone: int = None,
-        damageweapontwo: int = None,
-        damagegadgets: int = None,
-        kounarmed: int = None,
-        kothrownitem: int = None,
-        koweaponone: int = None,
-        koweapontwo: int = None,
-        kogadgets: int = None,
-        timeheldweaponone: int = None,
-        timeheldweapontwo: int = None,
-        xp: int = None,
-        level: int = None,
-        xp_percentage: float = None,
+        brawlhalla: Brawlhalla,
+        **kwargs,
     ):
-        self.legend_id = legend_id
-        self.legend_name_key = legend_name_key
-        self.damagedealt = int(damagedealt)
-        self.damagetaken = int(damagetaken)
-        self.kos = kos
-        self.falls = falls
-        self.suicides = suicides
-        self.teamkos = teamkos
-        self.matchtime = matchtime
-        self.games = games
-        self.wins = wins
-        self.damageunarmed = int(damageunarmed)
-        self.damagethrownitem = int(damagethrownitem)
-        self.damageweaponone = int(damageweaponone)
-        self.damageweapontwo = int(damageweapontwo)
-        self.damagegadgets = int(damagegadgets)
-        self.kounarmed = kounarmed
-        self.kothrownitem = kothrownitem
-        self.koweaponone = koweaponone
-        self.koweapontwo = koweapontwo
-        self.kogadgets = kogadgets
-        self.timeheldweaponone = timeheldweaponone
-        self.timeheldweapontwo = timeheldweapontwo
-        self.xp = xp
-        self.level = level
-        self.xp_percentage = xp_percentage
-        super().__init__(brawlhalla)
+        self.brawlhalla = brawlhalla
+        self.legend_id = kwargs.get("legend_id")
+        self.legend_name_key = kwargs.get("legend_name_key")
+        self.damagedealt = int(kwargs.get("damagedealt"))
+        self.damagetaken = int(kwargs.get("damagetaken"))
+        self.kos = kwargs.get("kos")
+        self.falls = kwargs.get("falls")
+        self.suicides = kwargs.get("suicides")
+        self.teamkos = kwargs.get("teamkos")
+        self.matchtime = timedelta(seconds=kwargs.get("matchtime"))
+        self.games = kwargs.get("games")
+        self.wins = kwargs.get("wins")
+        self.damageunarmed = int(kwargs.get("damageunarmed"))
+        self.damagethrownitem = int(kwargs.get("damagethrownitem"))
+        self.damageweaponone = int(kwargs.get("damageweaponone"))
+        self.damageweapontwo = int(kwargs.get("damageweapontwo"))
+        self.damagegadgets = int(kwargs.get("damagegadgets"))
+        self.kounarmed = kwargs.get("kounarmed")
+        self.kothrownitem = kwargs.get("kothrownitem")
+        self.koweaponone = kwargs.get("koweaponone")
+        self.koweapontwo = kwargs.get("koweapontwo")
+        self.kogadgets = kwargs.get("kogadgets")
+        self.timeheldweaponone = timedelta(seconds=kwargs.get("timeheldweaponone"))
+        self.timeheldweapontwo = timedelta(seconds=kwargs.get("timeheldweapontwo"))
+        self.xp = kwargs.get("xp")
+        self.level = kwargs.get("level")
+        self.xp_percentage = kwargs.get("xp_percentage")
 
 
-class PlayerRankedLegend(Base):
+@dataclass
+class PlayerRankedLegend(PlayerCommons):
+    """
+    PlayerRankedLegend represents a player's ranked legend stats in the game Brawlhalla.
+    """
+
     def __init__(
         self,
         brawlhalla,
-        legend_id: int = None,
-        legend_name_key: str = None,
-        rating: int = None,
-        peak_rating: int = None,
-        tier: str = None,
-        wins: int = None,
-        games: int = None,
+        **kwargs,
     ):
-        self.legend_id = legend_id
-        self.legend_name_key = legend_name_key
-        self.rating = rating
-        self.peak_rating = peak_rating
-        self.tier = tier
-        self.wins = wins
-        self.games = games
-        super().__init__(brawlhalla)
+        super().__init__(brawlhalla, **kwargs)
+        self.legend_id = kwargs.get("legend_id")
+        self.legend_name_key = kwargs.get("legend_name_key")

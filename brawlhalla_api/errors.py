@@ -1,3 +1,16 @@
+"""
+This module defines following exceptions:
+
+    Unauthorized -- You Must use HTTPS
+    Forbidden -- Bad API key or missing API key
+    NotFound -- The service or endpoint is not found
+    BadRequest -- Required Parameters missing, or possibly invalid
+    TooManyRequests -- Your API key has hit the rate limit.
+    ServiceUnavailable -- We're temporarially offline for maintanance. Please try again later.
+
+"""
+
+
 class Unauthorized(Exception):
     """Unauthorized -- You Must use HTTPS"""
 
@@ -44,6 +57,7 @@ class ServiceUnavailable(Exception):
 
 
 def error_checker(status: int, data: dict):
+    """raise an exception based on the status code and data provided"""
     match status:
         case 403:
             raise Forbidden()
