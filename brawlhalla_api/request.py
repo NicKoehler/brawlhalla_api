@@ -18,9 +18,9 @@ class Request:
     parameters and returns the response data as a dictionary.
     """
 
-    def __init__(self, api_key, is_async=True) -> None:
+    def __init__(self, api_key) -> None:
         self._base_params = {"api_key": api_key}
-        self.session = AsyncClient() if is_async else None
+        self.session = AsyncClient()
 
     async def get(self, endpoint, params=None, **kwargs) -> dict:
         """
