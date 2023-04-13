@@ -74,7 +74,7 @@ class Brawlhalla:
         :param bracket: The bracket to retrieve rankings for, can be one of the values in the
             `Bracket` enum (SINGLE, DOUBLE, ROTATING).
         :param region: The region to retrieve rankings for, can be one of the values in the
-            `Region` enum (ALL, EU, SEA, BRZ, AUS, US_W, US_E).
+            `Region` enum (ALL, EU, SEA, BRZ, AUS, US_W, US_E, JPN, ME, SA).
         :param page: The page number of the rankings to retrieve. The first page is page 1.
         :return: A list of `RankingResult`s representing the players,
             a empty list if the rankings were not found.
