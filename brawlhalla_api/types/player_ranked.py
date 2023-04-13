@@ -53,10 +53,12 @@ class PlayerRanked(PlayerCommons):
 
         """
         total_wins = self.wins
+        total_games = self.games
         peak_rating = self.peak_rating
 
         for elem in self.teams:
             total_wins += elem.wins
+            total_games += elem.games
             if elem.peak_rating > peak_rating:
                 peak_rating = elem.peak_rating
 
@@ -66,8 +68,13 @@ class PlayerRanked(PlayerCommons):
 
         if self.rotating_ranked:
             total_wins += self.rotating_ranked.wins
+            total_games += self.rotating_ranked.games
             if self.rotating_ranked.peak_rating > peak_rating:
                 peak_rating = self.rotating_ranked.peak_rating
+
+        # Sorry, gotta play 10 games!
+        if total_games < 10:
+            return 0
 
         glory_wins = utils.get_glory_from_wins(total_wins)
         glory_rating = utils.get_glory_from_best_rating(peak_rating)
