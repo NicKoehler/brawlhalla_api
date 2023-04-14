@@ -4,7 +4,7 @@ This module provides two dataclass, Legend and LegendDetails.
 
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 if TYPE_CHECKING:
     from brawlhalla_api import Brawlhalla
@@ -29,22 +29,29 @@ class Legend:
 
     """
 
+    brawlhalla: Brawlhalla = field(repr=False)
+    legend_id: int
+    legend_name_key: str
+    bio_name: str
+    bio_aka: str
+    weapon_one: str
+    weapon_two: str
+    strength: int
+    dexterity: int
+    defense: int
+    speed: int
+
     def __init__(
         self,
         brawlhalla: Brawlhalla,
         **kwargs,
     ) -> None:
         self.brawlhalla = brawlhalla
-        self.legend_id = kwargs.get("legend_id")
-        self.legend_name_key = kwargs.get("legend_name_key")
-        self.bio_name = kwargs.get("bio_name")
-        self.bio_aka = kwargs.get("bio_aka")
-        self.weapon_one = kwargs.get("weapon_one")
-        self.weapon_two = kwargs.get("weapon_two")
-        self.strength = int(kwargs.get("strength"))
-        self.dexterity = int(kwargs.get("dexterity"))
-        self.defense = int(kwargs.get("defense"))
-        self.speed = int(kwargs.get("speed"))
+        self.__dict__.update(kwargs)
+        self.strength = int(self.strength)
+        self.dexterity = int(self.dexterity)
+        self.defense = int(self.defense)
+        self.speed = int(self.speed)
 
 
 @dataclass
@@ -62,15 +69,17 @@ class LegendDetails(Legend):
 
     """
 
+    bio_quote: str
+    bio_quote_about_attrib: str
+    bio_quote_from: str
+    bio_quote_from_attrib: str
+    bio_text: str
+    bot_name: str
+
     def __init__(
         self,
         brawlhalla: Brawlhalla,
         **kwargs,
     ) -> None:
         super().__init__(brawlhalla, **kwargs)
-        self.bio_quote = kwargs.get("bio_quote")
-        self.bio_quote_about_attrib = kwargs.get("bio_quote_about_attrib")
-        self.bio_quote_from = kwargs.get("bio_quote_from")
-        self.bio_quote_from_attrib = kwargs.get("bio_quote_from_attrib")
-        self.bio_text = kwargs.get("bio_text")
-        self.bot_name = kwargs.get("bot_name")
+        self.__dict__.update(kwargs)

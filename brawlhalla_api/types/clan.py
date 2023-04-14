@@ -6,8 +6,8 @@ components of a clan.
 
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from datetime import datetime
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from datetime import datetime as dt
 
 if TYPE_CHECKING:
     from brawlhalla_api import Brawlhalla
@@ -28,17 +28,22 @@ class ClanComponent:
     xp: the player's XP within the clan
     """
 
+    brawlhalla: Brawlhalla = field(repr=False)
+    name: str
+    rank: str
+    join_date: dt
+    xp: int
+
     def __init__(
         self,
         brawlhalla: Brawlhalla,
         **kwargs,
     ) -> None:
         self.brawlhalla = brawlhalla
-        self.brawlhalla_id = kwargs.get("brawlhalla_id")
-        self.name = kwargs.get("name").encode("raw_unicode_escape").decode("utf-8")
-        self.rank = kwargs.get("rank")
-        self.join_date = datetime.fromtimestamp(kwargs.get("join_date"))
-        self.ex = kwargs.get("xp")
+        self.__dict__.update(kwargs)
+        self.name = self.name.encode("raw_unicode_escape").decode("utf-8")
+        if "join_date" in kwargs:
+            self.join_date = dt.fromtimestamp(kwargs["join_date"])
 
 
 @dataclass
@@ -54,18 +59,26 @@ class Clan:
     components: a list of ClanComponent instances representing each player in the clan
     """
 
+    brawlhalla: Brawlhalla = field(repr=False)
+    clan_id: int
+    clan_name: str
+    clan_create_date: dt
+    clan_xp: int
+
     def __init__(
         self,
         brawlhalla: Brawlhalla,
         **kwargs,
     ) -> None:
         self.brawlhalla = brawlhalla
-        self.clan_id = kwargs.get("clan_id")
-        self.clan_name = (
-            kwargs.get("clan_name").encode("raw_unicode_escape").decode("utf-8")
-        )
-        self.clan_create_date = datetime.fromtimestamp(kwargs.get("clan_create_date"))
-        self.clan_xp = kwargs.get("clan_xp")
-        self.components = [
-            ClanComponent(brawlhalla, **component) for component in kwargs.get("clan")
-        ]
+        self.__dict__.update(kwargs)
+        self.clan_name = self.clan_name.encode("raw_unicode_escape").decode("utf-8")
+
+        if "clan_create_date" in kwargs:
+            self.clan_create_date = dt.fromtimestamp(kwargs["clan_create_date"])
+        self.clan_xp = int(self.clan_xp)
+
+        if "clan" in kwargs:
+            self.components = [
+                ClanComponent(brawlhalla, **component) for component in kwargs["clan"]
+            ]

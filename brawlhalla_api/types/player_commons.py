@@ -21,8 +21,4 @@ class PlayerCommons:
 
     def __init__(self, brawlhalla: Brawlhalla, **kwargs) -> None:
         self.brawlhalla = brawlhalla
-        self.rating = kwargs.get("rating")
-        self.peak_rating = kwargs.get("peak_rating")
-        self.tier = kwargs.get("tier")
-        self.wins = kwargs.get("wins")
-        self.games = kwargs.get("games")
+        self.__dict__.update(kwargs)
