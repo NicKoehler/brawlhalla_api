@@ -12,7 +12,7 @@ from .player_legend import PlayerStatsLegend
 
 if TYPE_CHECKING:
     from brawlhalla_api import Brawlhalla
-    from brawlhalla_api.types import PlayerClan, Clan
+    from brawlhalla_api.types import Clan
 
 
 @dataclass

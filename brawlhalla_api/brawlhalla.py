@@ -61,7 +61,7 @@ class Brawlhalla:
 
     async def get_rankings(
         self,
-        name: str = None,
+        name: str | None = None,
         bracket: Bracket = Bracket.SINGLE,
         region: Region = Region.ALL,
         page: int | str = 1,

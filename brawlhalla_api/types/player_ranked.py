@@ -3,7 +3,8 @@ This module defines PlayerRanked data class which represents
 a ranked player in the game Brawlhalla.
 
 """
-
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from dataclasses import dataclass
 
 from .. import utils
@@ -12,6 +13,9 @@ from .ranking_result import RankingResult
 from .player_legend import PlayerRankedLegend
 from .player_commons import PlayerCommons
 
+if TYPE_CHECKING:
+    from brawlhalla_api import Brawlhalla
+
 
 @dataclass
 class PlayerRanked(PlayerCommons):
@@ -19,28 +23,35 @@ class PlayerRanked(PlayerCommons):
     PlayerRanked represents a ranked player in the game Brawlhalla.
     """
 
-    def __init__(self, brawlhalla, **kwargs) -> None:
-        super().__init__(brawlhalla, **kwargs)
-        self.name = kwargs.get("name").encode("raw_unicode_escape").decode("utf-8")
-        self.brawlhalla_id = kwargs.get("brawlhalla_id")
-        self.region = kwargs.get("region")
-        self.global_rank = kwargs.get("global_rank")
-        self.region_rank = kwargs.get("region_rank")
-        self.legends = [
-            PlayerRankedLegend(brawlhalla, **legend) for legend in kwargs.get("legends")
-        ]
-        self.teams = [RankingResult(brawlhalla, **team) for team in kwargs.get("2v2")]
-        if isinstance(kwargs.get("rotating_ranked"), list):
-            self.rotating_ranked = None
-        else:
-            self.rotating_ranked = RankingResult(
-                brawlhalla, **kwargs.get("rotating_ranked")
-            )
+    name: str
+    brawlhalla_id: int
+    region: Region | None
+    global_rank: int
+    region_rank: int
+    legends: list[PlayerRankedLegend]
+    teams: list[RankingResult]
+    rotating_ranked: RankingResult | None
 
-        if self.region != "none":
-            self.region = Region.from_str(self.region)
-        else:
-            self.region = None
+    def __init__(self, brawlhalla: Brawlhalla, **kwargs) -> None:
+        super().__init__(brawlhalla, **kwargs)
+        self.__dict__.update(kwargs)
+        self.name = self.name.encode("raw_unicode_escape").decode("utf-8")
+
+        if "legends" in kwargs:
+            self.legends = [
+                PlayerRankedLegend(brawlhalla, **legend) for legend in kwargs["legends"]
+            ]
+        if "2v2" in kwargs:
+            self.teams = [RankingResult(brawlhalla, **team) for team in kwargs["2v2"]]
+
+        if "rotating_ranked" in kwargs:
+            rotatings = kwargs["rotating_ranked"]
+            if isinstance(rotatings, dict):
+                self.rotating_ranked = RankingResult(brawlhalla, **rotatings)
+
+        self.region = (
+            Region.from_str(kwargs["region"]) if self.region != "none" else None
+        )
 
         self.estimated_glory = self._get_glory()
         self.estimated_elo_reset = utils.get_personal_elo_from_old_elo(self.rating)
