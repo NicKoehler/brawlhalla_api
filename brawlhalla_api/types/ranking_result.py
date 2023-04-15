@@ -5,19 +5,41 @@ a player search result in the game Brawlhalla.
 
 from __future__ import annotations
 from typing import TYPE_CHECKING
+from dataclasses import dataclass, field
 
 from brawlhalla_api.types.regions import Region
-
 
 if TYPE_CHECKING:
     from brawlhalla_api import Brawlhalla
     from brawlhalla_api.types import PlayerRanked, PlayerStats
 
 
+@dataclass
 class RankingResult:
     """
     RankingResult represents a player search result in the game Brawlhalla.
     """
+
+    brawlhalla: Brawlhalla = field(repr=False)
+    brawlhalla_id: int | None = field(default=None)
+    brawlhalla_id_one: int | None = field(default=None)
+    brawlhalla_id_two: int | None = field(default=None)
+    name: str | None = field(default=None)
+    rank: int | None = field(default=None)
+    tier: str | None = field(default=None)
+    games: int = field(default=0)
+    wins: int = field(default=0)
+    rating: int | None = field(default=None)
+    peak_rating: int = field(default=0)
+    best_legend: int | None = field(default=None)
+    global_rank: int | None = field(default=None)
+    best_legend_games: int | None = field(default=None)
+    best_legend_wins: int | None = field(default=None)
+    teamname: str | None = field(default=None)
+    twitch_name: str | None = field(default=None)
+    twitch_name_one: str | None = field(default=None)
+    twitch_name_two: str | None = field(default=None)
+    region: Region | None = field(default=None)
 
     def __init__(
         self,
@@ -25,33 +47,15 @@ class RankingResult:
         **kwargs,
     ) -> None:
         self.brawlhalla = brawlhalla
-        self.brawlhalla_id = kwargs.get("brawlhalla_id")
-        self.brawlhalla_id_one = kwargs.get("brawlhalla_id_one")
-        self.brawlhalla_id_two = kwargs.get("brawlhalla_id_two")
-        self.name = kwargs.get("name")
-        self.rank = kwargs.get("rank")
-        self.tier = kwargs.get("tier")
-        self.games = kwargs.get("games")
-        self.wins = kwargs.get("wins")
-        self.rating = kwargs.get("rating")
-        self.peak_rating = kwargs.get("peak_rating")
-        self.best_legend = kwargs.get("best_legend")
-        self.global_rank = kwargs.get("global_rank")
-        self.best_legend_games = kwargs.get("best_legend_games")
-        self.best_legend_wins = kwargs.get("best_legend_wins")
-        self.teamname = kwargs.get("teamname")
-        self.twitch_name = kwargs.get("twitch_name")
-        self.twitch_name_one = kwargs.get("twitch_name_one")
-        self.twitch_name_two = kwargs.get("twitch_name_two")
+        self.__dict__.update(kwargs)
 
-        if isinstance(kwargs.get("region"), str):
-            self.region = Region.from_str(kwargs.get("region"))
-        if isinstance(kwargs.get("region"), int):
-            self.region = Region.from_id(kwargs.get("region"))
+        if isinstance(self.region, str):
+            self.region = Region.from_str(self.region)
+        if isinstance(self.region, int):
+            self.region = Region.from_id(self.region)
 
         if self.rank:
             self.rank = int(self.rank)
-
         if self.name:
             self.name.encode("raw_unicode_escape").decode("utf-8")
         if self.teamname:
@@ -63,18 +67,20 @@ class RankingResult:
         if self.twitch_name_two:
             self.twitch_name_two.encode("raw_unicode_escape").decode("utf-8")
 
-    async def get_ranked(self) -> PlayerRanked:
+    async def get_ranked(self) -> PlayerRanked | None:
         """
         Gets the ranked information for the player.
 
         :return: An object of type `PlayerRanked`, containing the player's ranked information.
         """
-        return await self.brawlhalla.get_ranked(self.brawlhalla_id)
+        if self.brawlhalla_id:
+            return await self.brawlhalla.get_ranked(self.brawlhalla_id)
 
-    async def get_stats(self) -> PlayerStats:
+    async def get_stats(self) -> PlayerStats | None:
         """
         Gets the overall statistics for the player.
 
         :return: An object of type `PlayerStats`, containing the player's overall statistics.
         """
-        return await self.brawlhalla.get_stats(self.brawlhalla_id)
+        if self.brawlhalla_id:
+            return await self.brawlhalla.get_stats(self.brawlhalla_id)

@@ -5,8 +5,7 @@ a player's stats in the game Brawlhalla.
 
 from __future__ import annotations
 from typing import TYPE_CHECKING
-
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from .player_clan import PlayerClan
 from .player_legend import PlayerStatsLegend
@@ -22,35 +21,47 @@ class PlayerStats:
     PlayerStats represents a player's stats in the game Brawlhalla.
     """
 
+    brawlhalla: Brawlhalla = field(repr=False)
+    brawlhalla_id: int
+    name: str
+    xp: int
+    level: int
+    xp_percentage: float
+    games: int
+    wins: int
+    damagebomb: int
+    damagemine: int
+    damagespikeball: int
+    damagesidekick: int
+    hitsnowball: int
+    kobomb: int
+    komine: int
+    kospikeball: int
+    kosidekick: int
+    kosnowball: int
+    legends: list[PlayerStatsLegend] = field(default_factory=list)
+    clan: PlayerClan | None = field(default=None)
+
     def __init__(
         self,
         brawlhalla: Brawlhalla,
         **kwargs,
     ) -> None:
         self.brawlhalla = brawlhalla
-        self.brawlhalla_id = kwargs.get("brawlhalla_id")
-        self.name = kwargs.get("name").encode("raw_unicode_escape").decode("utf-8")
-        self.xp = kwargs.get("xp")
-        self.level = kwargs.get("level")
-        self.xp_percentage = kwargs.get("xp_percentage")
-        self.games = kwargs.get("games")
-        self.wins = kwargs.get("wins")
-        self.damagebomb = int(kwargs.get("damagebomb"))
-        self.damagemine = int(kwargs.get("damagemine"))
-        self.damagespikeball = int(kwargs.get("damagespikeball"))
-        self.damagesidekick = int(kwargs.get("damagesidekick"))
-        self.hitsnowball = kwargs.get("hitsnowball")
-        self.kobomb = kwargs.get("kobomb")
-        self.komine = kwargs.get("komine")
-        self.kospikeball = kwargs.get("kospikeball")
-        self.kosidekick = kwargs.get("kosidekick")
-        self.kosnowball = kwargs.get("kosnowball")
-        self.legends = [
-            PlayerStatsLegend(brawlhalla, **legend) for legend in kwargs.get("legends")
-        ]
-        self.clan = (
-            PlayerClan(brawlhalla, **kwargs.get("clan")) if "clan" in kwargs else None
-        )
+        self.__dict__.update(kwargs)
+
+        self.name = self.name.encode("raw_unicode_escape").decode("utf-8")
+        self.damagebomb = int(self.damagebomb)
+        self.damagemine = int(self.damagemine)
+        self.damagespikeball = int(self.damagespikeball)
+        self.damagesidekick = int(self.damagesidekick)
+
+        if "legends" in kwargs:
+            self.legends = [
+                PlayerStatsLegend(brawlhalla, **legend) for legend in kwargs["legends"]
+            ]
+        if "clan" in kwargs:
+            self.clan = PlayerClan(brawlhalla, **kwargs["clan"])
 
     async def get_clan(self) -> Clan | None:
         """
@@ -59,7 +70,5 @@ class PlayerStats:
         :return: An object of type `Clan`,
             containing the player's clan or `None` if the player is not in a clan.
         """
-        if self.clan is None:
-            return
-
-        return await self.brawlhalla.get_clan(self.clan.clan_id)
+        if self.clan:
+            return await self.brawlhalla.get_clan(self.clan.clan_id)

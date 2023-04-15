@@ -5,7 +5,7 @@ which contains commons information about a player in the game Brawlhalla.
 
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 if TYPE_CHECKING:
     from brawlhalla_api import Brawlhalla
@@ -19,10 +19,13 @@ class PlayerCommons:
     and PlayerRankedLegend as they share some common properties
     """
 
+    brawlhalla: Brawlhalla = field(repr=False)
+    rating: int
+    peak_rating: int
+    tier: str
+    wins: int
+    games: int
+
     def __init__(self, brawlhalla: Brawlhalla, **kwargs) -> None:
         self.brawlhalla = brawlhalla
-        self.rating = kwargs.get("rating")
-        self.peak_rating = kwargs.get("peak_rating")
-        self.tier = kwargs.get("tier")
-        self.wins = kwargs.get("wins")
-        self.games = kwargs.get("games")
+        self.__dict__.update(kwargs)
