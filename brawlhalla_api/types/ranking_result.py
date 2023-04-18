@@ -57,15 +57,21 @@ class RankingResult:
         if self.rank:
             self.rank = int(self.rank)
         if self.name:
-            self.name.encode("raw_unicode_escape").decode("utf-8")
+            self.name = self.name.encode("raw_unicode_escape").decode("utf-8")
         if self.teamname:
-            self.teamname.encode("raw_unicode_escape").decode("utf-8")
+            self.teamname = self.teamname.encode("raw_unicode_escape").decode("utf-8")
         if self.twitch_name:
-            self.twitch_name.encode("raw_unicode_escape").decode("utf-8")
+            self.twitch_name = self.twitch_name.encode("raw_unicode_escape").decode(
+                "utf-8"
+            )
         if self.twitch_name_one:
-            self.twitch_name_one.encode("raw_unicode_escape").decode("utf-8")
+            self.twitch_name_one = self.twitch_name_one.encode(
+                "raw_unicode_escape"
+            ).decode("utf-8")
         if self.twitch_name_two:
-            self.twitch_name_two.encode("raw_unicode_escape").decode("utf-8")
+            self.twitch_name_two = self.twitch_name_two.encode(
+                "raw_unicode_escape"
+            ).decode("utf-8")
 
     async def get_ranked(self) -> PlayerRanked | None:
         """
