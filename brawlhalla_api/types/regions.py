@@ -38,28 +38,21 @@ class Region(Enum):
         :param id: The region id to convert.
         :return: The region enum.
         """
-        region = None
-        match region_id:
-            case 1:
-                region = Region.JPN
-            case 2:
-                region = Region.US_E
-            case 3:
-                region = Region.EU
-            case 4:
-                region = Region.SEA
-            case 5:
-                region = Region.BRZ
-            case 6:
-                region = Region.AUS
-            case 7:
-                region = Region.US_W
-            case 8:
-                region = Region.ME
-            case 9:
-                region = Region.SA
-            case _:
-                raise ValueError(f"Unknown region id: {region_id}")
+        region = {
+            2: Region.US_E,
+            3: Region.EU,
+            4: Region.SEA,
+            5: Region.BRZ,
+            6: Region.AUS,
+            7: Region.US_W,
+            8: Region.JPN,
+            9: Region.SA,
+            10: Region.ME,
+        }.get(region_id)
+
+        if region is None:
+            raise ValueError(f"Unknown region id: {region_id}")
+
         return region
 
     def __str__(self) -> str:
